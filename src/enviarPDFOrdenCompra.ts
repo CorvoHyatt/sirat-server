@@ -20,7 +20,7 @@ class enviarPDFOrdenCompra{
         this.datos = data; 
         this.res = res;
         this.token  = jwt.sign(this.datos.cotizacion, process.env.TOKEN_SECRET || 'siratproject');  
-        console.log(this.token);    
+        
         this.suscribeToEmail();
     }
     suscribeToEmail(){
@@ -70,7 +70,7 @@ class enviarPDFOrdenCompra{
     }
 
     send(){
-        console.log("send");
+        
         this.server.send(this.message(), (err: any, message: any) => {
             console.log(err);
             if(err){

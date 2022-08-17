@@ -16,7 +16,7 @@ class PaisesController {
         if (Number.parseInt(idContinente) == -1) {
             respuesta = await pool.query('SELECT DISTINCT P.* FROM disposiciones D INNER JOIN ciudad C ON D.idCiudad = C.idCiudad INNER JOIN pais P ON C.idpais = P.id');
         } else {
-            console.log(`SELECT * FROM pais WHERE idContinente=${idContinente} ORDER BY nombre`);
+            
             respuesta = await pool.query(`SELECT DISTINCT P.* FROM disposiciones D INNER JOIN ciudad C ON D.idCiudad = C.idCiudad INNER JOIN pais P ON C.idpais = P.id WHERE P.idContinente=${idContinente} ORDER BY nombre`);
         }
         res.json(respuesta);
@@ -28,7 +28,7 @@ class PaisesController {
         if (Number.parseInt(idContinente) == -1) {
             respuesta = await pool.query('SELECT DISTINCT P.* FROM traslados T INNER JOIN ciudad C ON T.idCiudad = C.idCiudad INNER JOIN pais P ON C.idpais = P.id');
         } else {
-            console.log(`SELECT * FROM pais WHERE idContinente=${idContinente} ORDER BY nombre`);
+            
             respuesta = await pool.query(`SELECT DISTINCT P.* FROM traslados T INNER JOIN ciudad C ON T.idCiudad = C.idCiudad INNER JOIN pais P ON C.idpais = P.id WHERE P.idContinente=${idContinente} ORDER BY nombre`);
         }
         res.json(respuesta);
@@ -53,7 +53,7 @@ class PaisesController {
         if (Number.parseInt(idContinente) == -1) {
             respuesta = await pool.query('SELECT * FROM pais ORDER BY nombre ');
         } else {
-            console.log(`SELECT * FROM pais WHERE idContinente=${idContinente} ORDER BY nombre`);
+            
             respuesta = await pool.query(`SELECT * FROM pais WHERE idContinente=${idContinente} ORDER BY nombre`);
         }
         res.json(respuesta);

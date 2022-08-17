@@ -7,9 +7,9 @@ var smtpTransport = require('nodemailer-smtp-transport');
 module.exports = (formulario: any) => {
 
     const token = jwt.sign(formulario.correo, process.env.TOKEN_SECRET || 'tokentest');
-    console.log("email");
-    console.log(token);
-    console.log(formulario);
+    
+    
+    
 
     var server = email.server.connect({
      
@@ -40,7 +40,7 @@ module.exports = (formulario: any) => {
 
     var message: any ={};
 
-    console.log( "http://localhost:4200/verificacion/" + token );
+    
         message = {
             //      text:	"i hope this works", 
             from: "Contacto SIRAT <contacto@sirat.com>",
@@ -71,8 +71,8 @@ module.exports = (formulario: any) => {
 
         };
     
-    console.log(`http://localhost:4200/confirmar/` + token + `)`);
-    console.log(message);
+    
+    
 
     server.send(message, function(err:any, message:any) { console.log(err); });
 }

@@ -35,10 +35,10 @@ class ExtrasController {
     }
     public async agregarEmpresa(req: Request, res: Response): Promise<void> 
     {
-      console.log(req.body);
+      
         let consulta="SELECT * FROM aceptadosExtras WHERE idExtrasInfo="+req.body.idExtrasInfo;
         const respConsulta = await pool.query(consulta);
-        console.log(respConsulta);
+        
         if(respConsulta.length==0)
         {
             const resp = await pool.query("INSERT INTO aceptadosExtras set ?", [req.body]);

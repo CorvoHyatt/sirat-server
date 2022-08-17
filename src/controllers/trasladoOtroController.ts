@@ -8,7 +8,7 @@ class TrasladosOtrosController {
     try {
       let trasladoOtro = req.body[0];
       let mejoras = req.body[1];
-      console.log(trasladoOtro);
+      
   
       const resp = await pool.query("INSERT INTO trasladosotros set ?", [trasladoOtro]);
   

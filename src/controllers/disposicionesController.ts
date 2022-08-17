@@ -37,15 +37,15 @@ class DisposicionesController
                     for (let index4 = 0; index4 < dataIncremento[1].length; index4++) {
                         let detalleIncremento = dataIncremento[1][index4];
                         detalleIncremento.idIncremento = idIncremento;
-                        console.log("incremento id de disposiciones", idIncremento);
+                        
                         if (dataIncremento[0].tipo == 1) {
                             //Incremento de horas
                             const resp4 = await pool.query("INSERT INTO incrementos_horas set ?", detalleIncremento);
-                            console.log("INSERT INTO incrementos_horas set ?", detalleIncremento);
+                            
                         } else {
                             //Incremento de fechas
                             const resp4 = await pool.query("INSERT INTO incrementos_fechas set ?", detalleIncremento);
-                            console.log("INSERT INTO incrementos_fechas set ?", detalleIncremento);
+                            
                         }
                         
                     }
@@ -68,7 +68,7 @@ class DisposicionesController
 
     public async listOne(req: Request, res: Response): Promise<void> {
         let { idDisposicion } = req.params;    
-        console.log(`SELECT D.*, L.nombre FROM disposiciones D INNER JOIN lugares L ON D.idLugar=L.idLugar WHERE D.idDisposicion = ${idDisposicion}`);
+        
         const resp = await pool.query(`SELECT D.*, L.nombre FROM disposiciones D INNER JOIN lugares L ON D.idLugar=L.idLugar WHERE D.idDisposicion = ${idDisposicion}`);
         res.json(resp[0]);
     }
@@ -99,7 +99,7 @@ class DisposicionesController
     public async incrementoByDisposicionFecha (req : Request,res : Response) : Promise<void>
     { 
         let {id,fecha} = req.params;  
-        console.log(id,fecha);
+        
         const traslados = await pool.query(`SELECT porcentaje FROM incrementos I INNER JOIN incrementos_fechas FI ON I.idIncremento=FI.idIncremento WHERE idActividad=${id} AND tipoActividad=3 and tipo=2 AND '${fecha}' BETWEEN FI.fechaInicial AND FI.fechaFinal `);
         res.json(traslados);
     }

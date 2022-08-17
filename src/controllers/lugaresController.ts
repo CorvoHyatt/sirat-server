@@ -16,7 +16,7 @@ class LugaresController {
 
     public async listByName(req: Request, res: Response): Promise<void> {
         const { name } = req.params;
-        console.log('name', name);
+        
         const lugar = await pool.query(`SELECT * FROM lugares WHERE levenshtein(TRIM(LOWER('${name}')), TRIM(LOWER(nombre))) BETWEEN 0 AND 3`);
         if(lugar[0]){
             res.json(lugar[0]);

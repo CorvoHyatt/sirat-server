@@ -54,7 +54,7 @@ class UsuariosController {
   
   public async update_estatusPorRegistrar(req: Request, res: Response): Promise<void> {
     try {
-       console.log(req.body);
+       
         const { estatus } = req.params;
         const respuesta = await pool.query(`UPDATE usuariosporregistrar SET estatus = ${estatus} WHERE correo = "${req.body.correo}";`);
         res.json( respuesta );
@@ -70,7 +70,7 @@ class UsuariosController {
     delete user[0].estatus;
     const resp2 = await pool.query("INSERT INTO usuarios set ?", [user[0]]);
     const resp3 = await pool.query( "DELETE FROM usuariosporregistrar WHERE correo = ?", [correo]);
-    console.log(user);
+    
     res.json( user[0] );
 }
 

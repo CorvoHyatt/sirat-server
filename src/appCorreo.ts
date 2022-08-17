@@ -38,7 +38,7 @@ class Server
     routes(): void 
     {
         this.app.post('/enviarPDF', (req, res) => { 
-            console.log("/enviarPDF   ********************");
+            
             const enviarPDF = new EnviarPDF(req.body, res);
             enviarPDF.send();
         });
@@ -46,7 +46,7 @@ class Server
      
     start() {
         this.app.listen(this.app.get('port'), () => {
-            console.log(`Listening on port ${this.app.get('port')}`);
+            
         });
     }
 
@@ -62,7 +62,7 @@ class Server
 
 
         }, this.app).listen(this.app.get('port'), () => {
-            console.log('Running server https listening on port ' + this.app.get('port'));
+            
         })
 
     }

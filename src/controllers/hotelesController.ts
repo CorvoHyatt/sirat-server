@@ -17,7 +17,7 @@ class HotelesController {
     {
         let consulta="SELECT * FROM aceptadosHotel WHERE idHotelesAdquiridosInfo="+req.body.idHotelesAdquiridosInfo;
         const respConsulta = await pool.query(consulta);
-        console.log(respConsulta);
+        
         if(respConsulta.length==0)
         {
             const resp = await pool.query("INSERT INTO aceptadosHotel set ?", [req.body]);

@@ -35,9 +35,9 @@ class VehiculosController {
 
     public async delete(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
-        console.log(id);
+        
         const respuesta = await pool.query('DELETE FROM vehiculo WHERE idVehiculo = ?', id);
-        console.log(respuesta); res.json(respuesta);
+        
     }
 }
 export const vechiculosController = new VehiculosController();

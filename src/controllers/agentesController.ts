@@ -20,36 +20,36 @@ class AgentesController {
       if(data.tipo==3||data.tipo==1)
       {      
         let update=`UPDATE trasladosadquiridosinfo SET factura=1 , nombreFactura='${idFacturaActual}.${extFact}' WHERE idTrasladoAdquiridoInfo=${data.productoInfo}`;    
-        console.log(data.tipo);
-        console.log(update);
+        
+        
         const resp = await pool.query(update);    
       }
       else if(data.tipo==4)//hoteles
       {
         let update=`UPDATE hotelesAdquiridosInfo SET factura=1 , nombreFactura='${idFacturaActual}.${extFact}' WHERE idHotelesAdquiridosInfo=${data.productoInfo}`;    
-        console.log(data.tipo);
-        console.log(update);
+        
+        
         const resp = await pool.query(update);    
       }
       else if(data.tipo==5)//vuelos
       {
         let update=`UPDATE vuelosInfo SET factura=1 , nombreFactura='${idFacturaActual}.${extFact}' WHERE idVueloInfo=${data.productoInfo}`;    
-        console.log(data.tipo);
-        console.log(update);
+        
+        
         const resp = await pool.query(update);    
       }
       else if(data.tipo==6)//Trenes
       {
         let update=`UPDATE trenesinfo SET factura=1 , nombreFactura='${idFacturaActual}.${extFact}' WHERE idTrenInfo=${data.productoInfo}`;    
-        console.log(data.tipo);
-        console.log(update);
+        
+        
         const resp = await pool.query(update);    
       }
       else if(data.tipo==8)//Extra
       {
         let update=`UPDATE extrasInfo SET factura=1 , nombreFactura='${idFacturaActual}.${extFact}' WHERE idExtrasInfo=${data.productoInfo}`;    
-        console.log(data.tipo);
-        console.log(update);
+        
+        
         const resp = await pool.query(update);    
       }
 
@@ -345,9 +345,9 @@ class AgentesController {
             INNER JOIN productoscostos PC ON PC.idProductoAdquirido = HAI.idProductoAdquirido AND PC.idCotizacion=COT.idCotizacion AND PC.tipo=7
             WHERE HAI.estado=0 AND HA.fecha >='${ini}' AND HA.fecha<='${fin}' AND CIP.principal=1 
                 `;
-    console.log(consultaTralados);
+    
     const respuestaTraslados = await pool.query(consultaTralados);    
-    console.log(respuestaTraslados);
+    
                
     const respuestaOtrosTraslados = await pool.query(consultaOtrosTraslados);
     const respuestaHoteles = await pool.query(consultaHoteles);                   
@@ -439,7 +439,7 @@ class AgentesController {
         data.id=data.idProductoAdquirido;
         let consultaAceptadosEmpresa='SELECT empresa FROM aceptadosProductos WHERE idProductoAdquiridoInfo='+data.idProductosAdquiridosInfo;
         let consultaOpcionalesAdquiridos='SELECT * FROM productosopcionesadquiridos WHERE idProductoAdquirido='+data.idProductoAdquirido;
-        console.log("consultaOpcionalesAdquiridos",consultaOpcionalesAdquiridos);
+        
         
         
         const respuestaAceptadosEmpresa = await pool.query(consultaAceptadosEmpresa);

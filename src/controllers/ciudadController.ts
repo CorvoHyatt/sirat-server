@@ -58,7 +58,7 @@ class CiudadController {
 
     public async list_porPais(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
-        console.log(`SELECT * FROM ciudad  where idPais=${id} ORDER BY nombre`);
+        
         const respuesta = await pool.query(`SELECT * FROM ciudad  where idPais=${id} ORDER BY nombre`);
         res.json(respuesta);
     }
@@ -119,7 +119,7 @@ class CiudadController {
 
         res.json(respuesta);
         } catch (error) {
-            console.log(error);
+            
         }
         
     }

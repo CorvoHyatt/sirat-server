@@ -28,9 +28,6 @@ class SubcategoriasController {
 
   public async listByCategoriaCiudad(req: Request, res: Response): Promise<void> {
     const { categoria, idCiudad } = req.params;
-    console.log(`
-    SELECT S.* FROM productos P INNER JOIN productossubcategoria PS ON P.idProducto = PS.idProducto INNER JOIN subcategorias S ON PS.subcategoria = S.idSubcategoria WHERE P.categoria = ${categoria} AND P.idCiudad = ${idCiudad}
-    `);
       const respuesta = await pool.query(
        `
        SELECT DISTINCT S.* FROM productos P INNER JOIN productossubcategoria PS ON P.idProducto = PS.idProducto INNER JOIN subcategorias S ON PS.subcategoria = S.idSubcategoria WHERE P.categoria = ${categoria} AND P.idCiudad = ${idCiudad}

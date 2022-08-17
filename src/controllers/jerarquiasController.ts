@@ -27,7 +27,7 @@ class JerarquiasController {
       areasPrincipales[index].subordinados = await pool.query(
         `SELECT J.idAreaSubordinada, A.nombre FROM jerarquias J INNER JOIN areas A ON J.idAreaSubordinada = A.idArea WHERE J.idAreaPrincipal=${areasPrincipales[index].idAreaPrincipal}`
       );
-      console.log(areasPrincipales[index]);
+      
     }
     res.json(areasPrincipales);
   }

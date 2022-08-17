@@ -70,7 +70,7 @@ class enviarPDF{
     }
 
     send(){
-        console.log("send");
+        
         this.server.send(this.message(), (err: any, message: any) => {
             console.log(err);
             if(err){

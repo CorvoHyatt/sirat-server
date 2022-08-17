@@ -59,8 +59,8 @@ class enviarTrasladosCorreos
                 { 
                     return reject(error); 
                 } 
-                console.log("1.- *****",consulta);
-                console.log("1.- *****",results);
+                
+                
                 return resolve(results); 
             }); 
         }); 
@@ -82,9 +82,9 @@ class enviarTrasladosCorreos
             INNER JOIN cotizaciones COT ON COT.idCotizacion = CIP.idCotizacion
             WHERE idCiudad=1645124817665996 AND TAI.estado=0 AND length(fechaEnvio)=0 AND fechaDesde>'${fecha}' AND fechaDesde<'${fechaQuince}' AND CIP.principal=1            `;
                        
-            console.log(consulta);
+            
            
-//            console.log(consulta1);
+//            
             pool.query(consulta, (error:any, results:any)=> 
             { 
                 if(error)
@@ -100,14 +100,14 @@ class enviarTrasladosCorreos
         return new Promise((resolve, reject)=> 
         { 
             let consulta='SELECT * FROM choferes WHERE idCiudad='+idCiudad; 
-            console.log(consulta); 
+            
             pool.query(consulta, (error:any, results:any)=> 
             {
                 if(error)
                 { 
                     return reject(error); 
                 } 
-                console.log(results); 
+                
 
                 return resolve(results); 
             }); 
@@ -115,19 +115,19 @@ class enviarTrasladosCorreos
     };
     queryActualizarTrasladosAdquiridosInfo= (ids: any) =>
     { 
-        console.log(ids);
+        
         
         return new Promise((resolve, reject)=> 
         { 
             let consulta='UPDATE trasladosadquiridosinfo SET estado=1 , fechaEnvio=CURDATE() WHERE idTrasladoAdquiridoInfo IN ('+ids+')'; 
-            console.log(consulta); 
+            
             pool.query(consulta, (error:any, results:any)=> 
             {
                 if(error)
                 { 
                     return reject(error); 
                 } 
-                console.log(results); 
+                
 
                 return resolve(results); 
             }); 
@@ -199,13 +199,13 @@ class enviarTrasladosCorreos
             const result1 = await this.querySoloCiudades() as any; 
             for (var resSoloCiudad of result1) 
             { 
-                console.log("ciudad:"+resSoloCiudad.idCiudad); 
+                
                 const resultChoferes = await this.queryChoferes(resSoloCiudad.idCiudad) as any; 
                 for (var resChofer of resultChoferes) 
                 { 
                     this.token = jwt.sign(resChofer.correo, process.env.TOKEN_SECRET || 'siratproject');
-                    console.log("chofer:"+resChofer.correo,process.env.TOKEN_SECRET); 
-                    console.log(this.token,resChofer.correo);
+                    
+                    
 
 
 

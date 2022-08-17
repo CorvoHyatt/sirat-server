@@ -19,7 +19,7 @@ class ProductosAdquiridosController {
       }
     }
     if (productoTransporte != undefined) {
-      console.log("--------");
+      
       const resp = await pool.query(`INSERT INTO productostransporteadquirido (idProductoAdquirido,idProductoTransporte) VALUES (${respPA.insertId}, ${productoTransporte.idProductoTransporte	})`);
     }
     
@@ -44,9 +44,9 @@ class ProductosAdquiridosController {
 
   public async listOne(req: Request, res: Response): Promise<void> {
     const { idProductoAdquirido } = req.params;
-    // console.log(`******`);
-    // console.log(idProductoAdquirido);
-    // console.log( `SELECT * FROM productosadquiridos WHERE idProductoAdquirido= ${idProductoAdquirido}`);
+    // 
+    // 
+    // 
     const resp = await pool.query(
       `SELECT * FROM productosadquiridos WHERE idProductoAdquirido= ${idProductoAdquirido}`,
     );
@@ -72,7 +72,7 @@ class ProductosAdquiridosController {
       delete productoAdquirido.idCotizacion;
       delete productoAdquirido.precioPorPersona;
 
-      console.log("------------",productoAdquirido, idProductoAdquirido);
+      
       const resp1 = await pool.query('UPDATE productosadquiridos SET ? WHERE idProductoAdquirido = ?', [productoAdquirido, idProductoAdquirido]);
       const resp2 = await pool.query('DELETE FROM productosopcionesadquiridos WHERE idProductoAdquirido = ?', [idProductoAdquirido]);
  
@@ -86,9 +86,9 @@ class ProductosAdquiridosController {
       }
 
       const resp3 = await pool.query('DELETE FROM productostransporteadquirido WHERE idProductoAdquirido = ?', [idProductoAdquirido]);
-      console.log(`DELETE FROM productostransporteadquirido WHERE idProductoAdquirido = ${idProductoAdquirido}`);
+      
       if (productoTransporte != undefined) {
-        console.log(`INSERT INTO productostransporteadquirido (idProductoAdquirido,idProductoTransporte) VALUES (${idProductoAdquirido}, ${productoTransporte.idProductoTransporte	})`);
+        
         const resp = await pool.query(`INSERT INTO productostransporteadquirido (idProductoAdquirido,idProductoTransporte) VALUES (${idProductoAdquirido}, ${productoTransporte.idProductoTransporte	})`);
       }
        
@@ -129,7 +129,7 @@ class ProductosAdquiridosController {
   public async getOpcionesAdquiridas(req: Request, res: Response): Promise<void> {
     const { idProductoAdquirido } = req.params;
     try {
-      console.log(`SELECT PO.* FROM productosopcionesadquiridos POA INNER JOIN productosopciones PO ON POA.idProductoOpcion = PO.idProductoOpcion WHERE idProductoAdquirido = ${idProductoAdquirido}`);
+      
       const resp = await pool.query(
         `SELECT PO.* FROM productosopcionesadquiridos POA INNER JOIN productosopciones PO ON POA.idProductoOpcion = PO.idProductoOpcion WHERE idProductoAdquirido = ${idProductoAdquirido}`,
       );

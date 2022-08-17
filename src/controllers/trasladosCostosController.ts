@@ -27,9 +27,6 @@ class TrasladosCostosController {
     res: Response
   ): Promise<void> {
     const { idCiudad } = req.params;
-    console.log(
-      `SELECT TC.*, V.* FROM traslados T INNER JOIN traslado_costos TC ON T.idTraslado= TC.idTraslado INNER JOIN vehiculo V ON TC.idVehiculo=V.idVehiculo WHERE idCiudad=${idCiudad} AND muelle=1`
-    );
     const respuesta = await pool.query(
       `SELECT TC.*, V.*,D.valor ValorDivisa FROM traslados T INNER JOIN traslado_costos TC ON T.idTraslado= TC.idTraslado INNER JOIN vehiculo V ON TC.idVehiculo=V.idVehiculo INNER JOIN divisas D ON TC.idDivisa=D.idDivisa WHERE idCiudad=${idCiudad} AND muelle=1 ORDER BY TC.costo ASC     `
     );
@@ -53,8 +50,7 @@ class TrasladosCostosController {
     res: Response
   ): Promise<void> {
     const { idTrasladoCosto } = req.params;
-    console.log(
-      `SELECT * FROM traslado_costos WHERE idTrasladoCosto= ${idTrasladoCosto} `    );
+
     const respuesta = await pool.query(
       `SELECT * FROM traslado_costos WHERE idTrasladoCosto= ${idTrasladoCosto} `
     );
@@ -75,7 +71,7 @@ class TrasladosCostosController {
 
   public async updateDivisa(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    console.log("id", id, req.body);
+    
     const { body } = req;
     const resp = await pool.query(
       "UPDATE traslado_costos SET idDivisa = ?  WHERE idTraslado = ?",

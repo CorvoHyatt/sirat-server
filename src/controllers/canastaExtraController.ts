@@ -38,9 +38,9 @@ class CanastaExtraController {
     INNER JOIN vehiculo V ON V.idVehiculo=DAU.idVehiculo
     WHERE DAU.idCotizacion = ${idCotizacion}
     AND DAU.versionCotizacion=${idVersion}`;
-    console.log(consultaDisposiciones);
+    
     const cotizacionDisposiciones = await pool.query(consultaDisposiciones);
-    console.log(cotizacionDisposiciones);
+    
     res.json(cotizacionDisposiciones);
   }
   public async getListOtroTrasladosExtras(req: Request, res: Response): Promise<void> // tipo 3
@@ -126,9 +126,9 @@ class CanastaExtraController {
     WHERE HAUM.idCotizacion = ${idCotizacion}
     AND VEH.versionCotizacion=${idVersion}
     AND HAUM.versionCotizacion=${idVersion}`;
-    console.log("consultaTipoHotelManual",consultaTipoHotelManual);
+    
     const hay = await pool.query(consultaTipoHotelManual);
-    console.log(hay);
+    
     // Hoteles manuales
     if(hay.length!=0)
     {
@@ -144,23 +144,23 @@ class CanastaExtraController {
       AND HAUM.versionCotizacion=${idVersion}
       GROUP BY HA.idHotelAdquirido
       `;
-      console.log("consultaHotelManual",consultaHotelManual);
+      
       cotizacionHotelManual = await pool.query(consultaHotelManual);
-      console.log(cotizacionHotelManual);
+      
     }
     let consultaTipoHotelPrecargado=`SELECT DISTINCT HAU.idHotelAdquirido 
     FROM hotelesadquiridosupgrade HAU WHERE HAU.idCotizacion=${idCotizacion}
     AND HAU.idHotelAdquirido NOT IN
     (SELECT HAUM.idHotelAdquirido FROM hotelesadquiridosupgrademanual HAUM WHERE HAUM.idCotizacion=${idCotizacion})`;
-    console.log("consultaTipoHotelPrecargado",consultaTipoHotelPrecargado);
+    
     const hayPrecargado = await pool.query(consultaTipoHotelPrecargado);
-    console.log(hayPrecargado);
+    
     if(hayPrecargado.length!=0)
     {
       var ret = [];
       for (var i of hayPrecargado) 
         ret.push(i.idHotelAdquirido);
-      console.log(ret);
+      
       let consultaHotelPre=`SELECT SUM(HAU.diferencia) as diferencia, GROUP_CONCAT(HAU.tipoHabitacion SEPARATOR '@') as habitacion,DATE_FORMAT(HA.checkin, '%Y-%m-%d') as fecha,DATE_FORMAT(HA.checkout, '%Y-%m-%d') as fechaSalida,4 as tipo, HA.nombre, HA.estrellas,C.nombre as lugar,HA.categoria as categoriaNombre,HA.direccion,HA.telefono,HA.desayuno,HAU.hotel1,HAU.hotel2,HA.idHotelAdquirido as id
       FROM hotelesadquiridosupgrade HAU 
       INNER JOIN hotelesadquiridos HA ON HA.idHotelAdquirido = HAU.idHotelAdquirido
@@ -171,19 +171,19 @@ class CanastaExtraController {
       AND VEH3.versionCotizacion=${idVersion}
       AND HAU.versionCotizacion=${idVersion}
       GROUP BY HA.idHotelAdquirido`;
-      console.log("consultaHotelPre",consultaHotelPre);
+      
       cotizacionHotelPre = await pool.query(consultaHotelPre);
-      console.log(cotizacionHotelPre);
+      
 
     }
     const cotizacionHotel=cotizacionHotelManual.concat(cotizacionHotelPre);
-    console.log("Manuales");
-    console.log(cotizacionHotelManual);
-    console.log("Precargados");
-    console.log(cotizacionHotelPre);
-    console.log("TODOS");
+    
+    
+    
+    
+    
 
-    console.log(cotizacionHotel);
+    
 
 
     res.json(cotizacionHotel);

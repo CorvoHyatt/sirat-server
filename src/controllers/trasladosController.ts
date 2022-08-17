@@ -58,11 +58,11 @@ class TrasladosController {
                 
             }
             } catch (error) {
-                console.log("Error en crear traslados");
+                
         
-                console.log(traslado);
-                console.log(costos);
-                console.log(incrementos);
+                
+                
+                
         
 
         console.log(error);
@@ -100,7 +100,7 @@ class TrasladosController {
     public async listDesdeOriginalDistinc(req: Request, res: Response): Promise<void> {
         const resp = await pool.query("SELECT DISTINCT desdeOriginal FROM traslados ORDER BY `traslados`.`desdeOriginal` ASC");
         res.json(resp);
-        console.log("SELECT DISTINCT desdeOriginal FROM traslados ORDER BY `traslados`.`desdeOriginal` ASC");
+        
     } 
 
     public async listHaciaOriginalDistinc(req: Request, res: Response): Promise<void> {
@@ -155,7 +155,7 @@ class TrasladosController {
     public async listMinByTraslado (req : Request,res : Response) : Promise<void>
     { 
         let {id,personas} = req.params;    
-//        const traslados = await pool.query('SELECT  T.idTraslado, MIN(costo*D.valor*(1+T.comision/100)) AS costoMinimo , L1.idLugar as idDesde, L1.nombre as nombreDesde, L2.idLugar as idHacia, L2.nombre as nombreHacia, T.cancelaciones, T.muelle, T.comision  FROM vehiculo V INNER JOIN costoTraslado CT ON V.idVehiculo=CT.idVehiculo INNER JOIN traslados T ON CT.idTraslado=T.idTraslado INNER JOIN lugares L1 ON T.idDesde=L1.idLugar INNER JOIN lugares L2 ON T.idHacia=L2.idLugar INNER JOIN divisas D ON CT.idDivisa=D.idDivisa  WHERE CT.idTraslado=? AND V.idVehiculo IN (SELECT idVehiculo FROM costoTraslado WHERE idTraslado=?) and V.pasajerosMax >=?',[id,id,personas]);        console.log(traslados);        
+//        const traslados = await pool.query('SELECT  T.idTraslado, MIN(costo*D.valor*(1+T.comision/100)) AS costoMinimo , L1.idLugar as idDesde, L1.nombre as nombreDesde, L2.idLugar as idHacia, L2.nombre as nombreHacia, T.cancelaciones, T.muelle, T.comision  FROM vehiculo V INNER JOIN costoTraslado CT ON V.idVehiculo=CT.idVehiculo INNER JOIN traslados T ON CT.idTraslado=T.idTraslado INNER JOIN lugares L1 ON T.idDesde=L1.idLugar INNER JOIN lugares L2 ON T.idHacia=L2.idLugar INNER JOIN divisas D ON CT.idDivisa=D.idDivisa  WHERE CT.idTraslado=? AND V.idVehiculo IN (SELECT idVehiculo FROM costoTraslado WHERE idTraslado=?) and V.pasajerosMax >=?',[id,id,personas]);        
         const traslados = await pool.query('SELECT  T.idTraslado, MIN(costo*D.valor) AS costoMinimo , L1.idLugar as idDesde, L1.nombre as nombreDesde, L2.idLugar as idHacia, L2.nombre as nombreHacia, T.cancelaciones, T.muelle, T.comision  FROM vehiculo V INNER JOIN costoTraslado CT ON V.idVehiculo=CT.idVehiculo INNER JOIN traslados T ON CT.idTraslado=T.idTraslado INNER JOIN lugares L1 ON T.idDesde=L1.idLugar INNER JOIN lugares L2 ON T.idHacia=L2.idLugar INNER JOIN divisas D ON CT.idDivisa=D.idDivisa  WHERE CT.idTraslado=? AND V.idVehiculo IN (SELECT idVehiculo FROM costoTraslado WHERE idTraslado=?) and V.pasajerosMax >=?',[id,id,personas]);        
         let cadena = 'SELECT  T.idTraslado, MIN(costo*D.valor) AS costoMinimo , L1.idLugar as idDesde, L1.nombre as nombreDesde, L2.idLugar as idHacia, L2.nombre as nombreHacia, T.cancelaciones, T.muelle, T.comision  FROM vehiculo V INNER JOIN costoTraslado CT ON V.idVehiculo=CT.idVehiculo INNER JOIN traslados T ON CT.idTraslado=T.idTraslado INNER JOIN lugares L1 ON T.idDesde=L1.idLugar INNER JOIN lugares L2 ON T.idHacia=L2.idLugar INNER JOIN divisas D ON CT.idDivisa=D.idDivisa  WHERE CT.idTraslado='+id+' AND V.idVehiculo IN (SELECT idVehiculo FROM costoTraslado WHERE idTraslado='+id+') and V.pasajerosMax >='+personas;
         res.json(traslados);
@@ -197,7 +197,7 @@ class TrasladosController {
     { 
         let {id} = req.params;            
         const traslados = await pool.query('SELECT DISTINCT idDesde , L.nombre, T.desdeOriginal FROM traslados T INNER JOIN lugares L on T.idDesde=L.idLugar WHERE  T.otraCiudad=0 AND T.idCiudad=?',[id]);
-        console.log('SELECT DISTINCT idDesde , L.nombre, T.desdeOriginal FROM traslados T INNER JOIN lugares L on T.idDesde=L.idLugar WHERE  T.otraCiudad=0 AND T.idCiudad=?',[id]);
+        
         res.json(traslados);
 
     }
@@ -236,7 +236,7 @@ class TrasladosController {
             const traslados = await pool.query('SELECT porcentaje FROM incrementos I INNER JOIN incrementos_horas HI ON I.idIncremento=HI.idIncremento WHERE idActividad=? AND tipoActividad=2 and tipo=1 AND ? BETWEEN HI.horaInicial AND HI.horaFinal ',[id,hora]);
             res.json(traslados);
         } catch (error) {
-            console.log(error); 
+            
         }
        
     }
@@ -249,7 +249,7 @@ class TrasladosController {
     public async listTrasladoByCiudadidHacia (req : Request,res : Response) : Promise<void>
     { 
         let {id,desde} = req.params; 
-        console.log( `SELECT  idHacia , L.nombre FROM traslados T INNER JOIN lugares L on T.idHacia=L.idLugar WHERE T.otraCiudad=0 AND T.idCiudad=${id} AND T.idDesde=${desde}`);
+        
         const traslados = await pool.query('SELECT  idHacia , L.nombre, T.haciaOriginal FROM traslados T INNER JOIN lugares L on T.idHacia=L.idLugar WHERE T.otraCiudad=0 AND T.idCiudad=? AND T.idDesde=?',[id,desde]);
         res.json(traslados);
     }

@@ -32,7 +32,7 @@ class DisposicionesAdquiridasController {
   
     public async listOne(req: Request, res: Response): Promise<void> {
       const { idDisposicionAdquirida } = req.params;
-      console.log( `SELECT * FROM disposicionesadquiridas WHERE idDisposicionAdquirida= ${idDisposicionAdquirida}`);
+      
       const resp = await pool.query(
         `SELECT * FROM disposicionesadquiridas WHERE idDisposicionadquirida= ${idDisposicionAdquirida}`,
         
@@ -70,8 +70,8 @@ class DisposicionesAdquiridasController {
         delete  disposicionAdquirida.total;
         delete disposicionAdquirida.idCotizacion;
         
-        console.log("total", total);
-        console.log("idCotizacion", idCotizacion);
+        
+        
   
       const resp = await pool.query('UPDATE disposicionesadquiridas SET ? WHERE idDisposicionAdquirida = ?', [disposicionAdquirida, idDisposicionAdquirida]);
       const respD = await pool.query('DELETE FROM disposicionesAdquiridasUpgrade WHERE idDisposicionAdquirida = ?', [idDisposicionAdquirida]);

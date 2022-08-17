@@ -14,7 +14,7 @@ class CotizacionesController {
 
   public async updateEstadoAEnviado(req: Request, res: Response): Promise<void> {
     const { idCotizacion,estado } = req.params;   
-    console.log(idCotizacion,estado); 
+    
     const resp = await pool.query(`UPDATE cotizaciones SET estado=${estado} WHERE idCotizacion=${idCotizacion}`);
     const { affectedRows } = resp;
     res.json({ affectedRows: affectedRows });
@@ -72,8 +72,8 @@ class CotizacionesController {
   public async createItinerario(req: Request, res: Response): Promise<void> 
   {
           var sql = "INSERT INTO itinerarioAuxiliar (idCotizacion,id,tipo,fecha,lugar,texto,hojaNuevaItinerario,visible,orden,descripcion,hojaNueva) VALUES ?";
-          console.log(sql);
-          console.log(req.body);
+          
+          
           const resp = await pool.query(sql, [req.body]);
           res.json(resp);
   }        
@@ -109,7 +109,7 @@ class CotizacionesController {
         INNER JOIN agentes A ON C.idAgente=A.idAgente 
         INNER JOIN agencias AGS ON A.idAgencia= AGS.idAgencia 
         WHERE idCotizacion = ${id} `;
-        console.log("resumen",resumen);
+        
           const respuesta = await pool.query(resumen);
           res.json( respuesta[0] );
           //SELECT C.*, A.*,AGS.* FROM cotizaciones C INNER JOIN agentes A ON C.idAgente=A.idAgente INNER JOIN agencias AGS ON A.idAgencia= AGS.idAgencia WHERE idCotizacion = 949
@@ -284,7 +284,7 @@ class CotizacionesController {
       cotizacion.porcentajeVerificado = round((cotizacion.totalVerificado * 100) / cotizacion.totalOC);
       const pagos: any[] = await pool.query(`SELECT * FROM finanzas_pagos WHERE idCotizacion = ?`, [cotizacion.idCotizacion]);
       const comisionesPagadas: any[] = await pool.query(`SELECT * FROM finanzas_comisionespagadas WHERE idCotizacion = ?`, [cotizacion.idCotizacion]);
-      console.log('pagos', pagos);
+      
       cotizacion.pagos = pagos;
       cotizacion.comisionesPagadas = comisionesPagadas;
     }
@@ -305,7 +305,7 @@ class CotizacionesController {
 
   public async update(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    console.log("***************************",req.body);
+    
     const resp = await pool.query(
       "UPDATE cotizaciones SET ?  WHERE idCotizacion = ?", 
       [req.body, id]

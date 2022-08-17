@@ -9,7 +9,7 @@ class ProductosController {
   {
       let consulta="SELECT * FROM aceptadosProductos WHERE idProductoAdquiridoInfo="+req.body.idProductoAdquiridoInfo;
       const respConsulta = await pool.query(consulta);
-      console.log(respConsulta);
+      
       if(respConsulta.length==0)
       {
           const resp = await pool.query("INSERT INTO aceptadosProductos set ?", [req.body]);
@@ -117,8 +117,8 @@ class ProductosController {
           await pool.query(`INSERT INTO productossubcategoria (idProducto, subcategoria) VALUES (${idProducto}, ${subcategorias[index].idSubcategoria})`);
         }
 
-           console.log("Incrementos tours privados a pie!!!! ----------------------------------------------");
-           console.log(incrementos);
+           
+           
         for (let index3 = 0; index3 < incrementos.length; index3++) {
           let dataIncremento = incrementos[index3];
           dataIncremento[0].idActividad = idProducto;
@@ -140,17 +140,17 @@ class ProductosController {
          
            }
          } catch (error) {
-           console.log("Error en createTPAP_fromList");
            
-           console.log(producto);
-           console.log(productoInfo);
-           console.log(tarifasPersonas);
-           console.log(entradas);
-           console.log(opciones);
-           console.log(horarios);
-           console.log(diasCerrados);
-           console.log(subcategorias);
-           console.log(incrementos);
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
    
            console.log(error);
            res.status(500).send({ error: error });
@@ -184,7 +184,7 @@ class ProductosController {
     productoInfo.idProducto = idProducto
 
     const resp2 = await pool.query("INSERT INTO productosinfo set ?", [productoInfo]);
-    ////console.log(resp2);
+    ////
 
     for (let index = 0; index < tarifasPersonas.length; index++) {
       await pool.query(`INSERT INTO productostarifas (idProducto, numPersonas, tarifa) VALUES (${idProducto},${tarifasPersonas[index].numPersonas},${tarifasPersonas[index].tarifa})`);
@@ -224,11 +224,11 @@ class ProductosController {
 
   public async createTPET_fromList(req: Request, res: Response): Promise<void> {
 
-    console.log("createTPET_fromList");
+    
     for (let ii = 0; ii < req.body.length; ii++) {
        let producto = req.body[ii][0];
-       console.log("producto");
-       console.log(producto);
+       
+       
        
     let productoInfo = req.body[ii][1];
     let tarifasPersonas = req.body[ii][2];
@@ -247,7 +247,7 @@ class ProductosController {
         productoInfo.idProducto = idProducto
     
         const resp2 = await pool.query("INSERT INTO productosinfo set ?", [productoInfo]);
-        ////console.log(resp2);
+        ////
     
         for (let index = 0; index < tarifasPersonas.length; index++) {
           await pool.query(`INSERT INTO productostarifas (idProducto, numPersonas, tarifa) VALUES (${idProducto},${tarifasPersonas[index].numPersonas},${tarifasPersonas[index].tarifa})`);
@@ -269,7 +269,7 @@ class ProductosController {
           await pool.query(`INSERT INTO productosdiascerrados (idProducto,fecha) VALUES (${idProducto}, '${diasCerrados[index].fecha}') `);      
         }
     
-          //console.log(transportes);
+          //
         for (let index = 0; index < transportes.length; index++) {
           await pool.query(`INSERT INTO productostransporte (idProducto,idVehiculo,tarifa,noPersonas,horasExtras) VALUES (${idProducto}, ${transportes[index].idVehiculo}, ${transportes[index].tarifa},${transportes[index].noPersonas}, ${transportes[index].horasExtras}) `);      
         }
@@ -300,18 +300,18 @@ class ProductosController {
               
           }
       } catch (error) {
-        console.log("Error en createTPET_fromList");
         
-        console.log(producto);
-        console.log(productoInfo);
-        console.log(tarifasPersonas);
-        console.log(entradas);
-        console.log(opciones);
-        console.log(horarios);
-        console.log(diasCerrados);
-        console.log(subcategorias);
-        console.log(incrementos);
-        console.log(transportes);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         console.log(error);
         res.status(500).send({ error: error });
@@ -343,7 +343,7 @@ class ProductosController {
     productoInfo.idProducto = idProducto
 
     const resp2 = await pool.query("INSERT INTO productosinfo set ?", [productoInfo]);
-    //console.log(resp2);
+    //
     for (let index = 0; index < opciones.length; index++) {
       opciones[index].idProducto = idProducto;
       await pool.query("INSERT INTO productosopciones set ?", [ opciones[index]]);
@@ -394,7 +394,7 @@ class ProductosController {
       productoInfo.idProducto = idProducto
   
       const resp2 = await pool.query("INSERT INTO productosinfo set ?", [productoInfo]);
-      //console.log(resp2);
+      //
       for (let index = 0; index < opciones.length; index++) {
         opciones[index].idProducto = idProducto;
         await pool.query("INSERT INTO productosopciones set ?", [ opciones[index]]);
@@ -439,21 +439,21 @@ class ProductosController {
         }
       }
     } catch (error) {
-      console.log("Error en createTEG_fromList");
+      
         
-        console.log(producto);
-        console.log(productoInfo);
-        console.log(opciones);
-        console.log(horarios);
-        console.log(diasCerrados);
-        console.log(subcategorias);
-        console.log(incrementos);
-        console.log(transportes);
+        
+        
+        
+        
+        
+        
+        
+        
 
-      console.log(error);
+      
       res.status(500).send({ error: error });
     }
-      //console.log(productoInfo);
+      //
 
    
       
@@ -474,14 +474,14 @@ class ProductosController {
     let transportes = req.body[5];
     let subcategorias = req.body[6];
 
-    //console.log(opciones);
+    //
 
     const resp1 = await pool.query("INSERT INTO productos set ?", [producto]);
     let idProducto=resp1.insertId;
     productoInfo.idProducto = idProducto
 
     const resp2 = await pool.query("INSERT INTO productosinfo set ?", [productoInfo]);
-    //console.log(resp2);
+    //
     for (let index = 0; index < opciones.length; index++) {
       opciones[index].idProducto = idProducto;
       await pool.query("INSERT INTO productosopciones set ?", [ opciones[index]]);
@@ -529,7 +529,7 @@ class ProductosController {
       const resp2 = await pool.query("INSERT INTO productosinfo set ?", [productoInfo]);
       for (let index = 0; index < opciones.length; index++) {
         opciones[index].idProducto = idProducto;
-        //console.log( opciones[index]);
+        //
 
         await pool.query("INSERT INTO productosopciones set ?", [ opciones[index]]);
       }
@@ -554,17 +554,17 @@ class ProductosController {
       }
   
       } catch (error) {
-        console.log("Error en createActividad_fromList");
         
-        console.log(producto);
-        console.log(productoInfo);
-        console.log(opciones);
-        console.log(horarios);
-        console.log(diasCerrados);
-        console.log(subcategorias);
-        console.log(transportes);
+        
+        
+        
+        
+        
+        
+        
+        
 
-        console.log(error);
+        
         res.status(500).send({ error: error });
       }
   
@@ -581,14 +581,14 @@ class ProductosController {
 
   public async listByCiudadCategoriaSubcategoria(req: Request, res: Response): Promise<void> {
     const { idCiudad, categoria, subCategoria } = req.params;
-    //console.log(`*** listByCiudadCategoriaSubcategoria ***`);
-    //console.log(
+    //
+    //
     //   `SELECT P.* FROM productos P INNER JOIN productossubcategoria PS ON P.idProducto = PS.idProducto WHERE P.idCiudad = ${idCiudad} AND P.categoria =${categoria} AND PS.subcategoria=${subCategoria} `
     // );
     const respuesta = await pool.query(
       `SELECT P.* FROM productos P INNER JOIN productossubcategoria PS ON P.idProducto = PS.idProducto WHERE P.idCiudad = ${idCiudad} AND P.categoria =${categoria} AND PS.subcategoria=${subCategoria} `
     );
-    //console.log(respuesta);
+    //
     res.json(respuesta);
   }
 
@@ -597,10 +597,10 @@ class ProductosController {
       const { idPais, idCiudad,categoria } = req.params;     
       let respuesta;
     if (Number.parseInt(idCiudad) == -1) {
-      //console.log(`SELECT C.nombre ciudad, P.* FROM productos P INNER JOIN ciudad C ON P.idCiudad = C.idCiudad WHERE C.idpais=${idPais} AND P.categoria=${categoria} ORDER BY ciudad DESC`);
+      //
           respuesta=await pool.query(`SELECT C.nombre ciudad, P.* FROM productos P INNER JOIN ciudad C ON P.idCiudad = C.idCiudad WHERE C.idpais=${idPais} AND P.categoria=${categoria} ORDER BY ciudad DESC`);
     } else {
-      //console.log(`SELECT C.nombre ciudad, P.* FROM productos P INNER JOIN ciudad C ON P.idCiudad = C.idCiudad WHERE C.idCiudad=${idCiudad} AND P.categoria=${categoria} ORDER BY ciudad DESC`);
+      //
           respuesta=await pool.query(`SELECT C.nombre ciudad, P.* FROM productos P INNER JOIN ciudad C ON P.idCiudad = C.idCiudad WHERE C.idCiudad=${idCiudad} AND P.categoria=${categoria} ORDER BY ciudad DESC`);
       }
       
@@ -645,7 +645,7 @@ class ProductosController {
   ): Promise<void> {
     const { idProducto } = req.params;
 
-    ////console.log( `SELECT D.divisa divisa, PI.* FROM productosinfo PI INNER JOIN divisas D ON PI.idDivisa=D.idDivisa WHERE PI.idProducto=${idProducto}`);
+    ////
     const respuesta = await pool.query(
       `SELECT D.divisa divisa, PI.* FROM productosinfo PI INNER JOIN divisas D ON PI.idDivisa=D.idDivisa WHERE PI.idProducto=${idProducto}`
     );
@@ -724,7 +724,7 @@ class ProductosController {
     );
     res.json(respuesta);
    } catch (error) {
-     console.log(error);
+     
    }
   }
 
@@ -758,9 +758,9 @@ class ProductosController {
     res: Response
   ): Promise<void> {
     let { id, fecha } = req.params;
-    //console.log("incrementoByTrasladoFecha");
-    //console.log(id, fecha);
-    // console.log(
+    //
+    //
+    // 
     //   `SELECT porcentaje FROM incrementos I INNER JOIN incrementos_fechas FI ON I.idIncremento=FI.idIncremento WHERE idActividad=${id} AND tipoActividad=1 and tipo=2 AND '${fecha}' BETWEEN FI.fechaInicial AND FI.fechaFinal `
     // );
     const traslados = await pool.query(
@@ -784,8 +784,8 @@ class ProductosController {
     res: Response
   ): Promise<void> {
     let { id, hora } = req.params;
-    //console.log(`Cambio...`);
-    // console.log(
+    //
+    // 
     //   `SELECT porcentaje FROM incrementos I INNER JOIN incrementos_horas HI ON I.idIncremento=HI.idIncremento WHERE idActividad=${id} AND tipoActividad=1 and tipo=1 AND ${hora} BETWEEN HI.horaInicial AND HI.horaFinal`
     // );
     const traslados = await pool.query(
@@ -800,12 +800,12 @@ class ProductosController {
     res: Response
   ): Promise<void> {
     let { titulo, categoria } = req.params;
-    //console.log(`**********`);
-    // console.log(
+    //
+    // 
     //   `SELECT * FROM productos WHERE titulo="${titulo}" and categoria!=${categoria}`
     // );
-    console.log(`**********`);
-    console.log(`SELECT * FROM productos WHERE titulo="${titulo}" and categoria!=${categoria}`);
+    
+    
     const productos = await pool.query(
       `SELECT * FROM productos WHERE titulo="${titulo}" and categoria!=${categoria} GROUP BY titulo`
     );
@@ -817,7 +817,7 @@ class ProductosController {
     res: Response
   ): Promise<void> {
     let { idProducto, tipo } = req.params;
-    ////console.log( `SELECT PT.idProducto, PT.idProductoTransporte,PT.idVehiculo,V.nombre, V.pasajerosMax,V.maletasMax, V.maletasManoMax,PT.noPersonas, PT.tarifa,PT.horasExtras FROM productostransporte PT INNER JOIN vehiculo V ON PT.idVehiculo = V.idVehiculo WHERE PT.idProducto =${idProducto} AND V.lujo=${tipo}`);
+    ////
     let productos;
     if (tipo == `-1`) {
     productos = await pool.query(
@@ -979,18 +979,18 @@ class ProductosController {
   
       const delete1 = await pool.query(`DELETE FROM productossubcategoria WHERE idProducto = ${producto.idProducto}`);
       for (let index = 0; index < subcategorias.length; index++) {
-        //console.log(`INSERT INTO productossubcategoria (idProducto, subcategoria) VALUES (${producto.idProducto}, ${subcategorias[index].idSubcategoria})`);
+        //
         await pool.query(`INSERT INTO productossubcategoria (idProducto, subcategoria) VALUES (${producto.idProducto}, ${subcategorias[index].idSubcategoria})`);
       }
   
       res.json(`actualizado`);
     } catch (error) {
-      console.log("---------------------------");
-      console.log(producto);
-      console.log(productoInfo);
-      console.log(tarifasPersonas);
-      console.log(entradas);
-      console.log(error);
+      
+      
+      
+      
+      
+      
 
       
     }
@@ -1038,7 +1038,7 @@ class ProductosController {
 
     const delete1 = await pool.query(`DELETE FROM productossubcategoria WHERE idProducto = ${producto.idProducto}`);
     for (let index = 0; index < subcategorias.length; index++) {
-      //console.log(`INSERT INTO productossubcategoria (idProducto, subcategoria) VALUES (${producto.idProducto}, ${subcategorias[index].idSubcategoria})`);
+      //
       await pool.query(`INSERT INTO productossubcategoria (idProducto, subcategoria) VALUES (${producto.idProducto}, ${subcategorias[index].idSubcategoria})`);
     }
 
@@ -1099,7 +1099,7 @@ class ProductosController {
 
     const delete1 = await pool.query(`DELETE FROM productossubcategoria WHERE idProducto = ${producto.idProducto}`);
     for (let index = 0; index < subcategorias.length; index++) {
-      //console.log(`INSERT INTO productossubcategoria (idProducto, subcategoria) VALUES (${producto.idProducto}, ${subcategorias[index].idSubcategoria})`);
+      //
       await pool.query(`INSERT INTO productossubcategoria (idProducto, subcategoria) VALUES (${producto.idProducto}, ${subcategorias[index].idSubcategoria})`);
     }
 
@@ -1114,8 +1114,8 @@ class ProductosController {
   }
 
   imprimirError(query: any, error: any) {
-    console.log("Error en Query: " + query);
-    console.log(error);
+    
+    
   }
 
   public async listImagenesExistentes(
@@ -1123,7 +1123,7 @@ class ProductosController {
     res: Response
   ): Promise<void> {
     const { idProducto } = req.params;
-    console.log(`SELECT * FROM productoImagenes WHERE idProducto=${idProducto} `);
+    
     const respuesta = await pool.query(
       `SELECT * FROM productoImagenes WHERE idProducto=${idProducto} `
     );

@@ -78,7 +78,7 @@ class Reminders {
     }
 
     start() {
-        console.log('Caducidad de notificaciones y cotizaciones');
+        
         this.revisarNotificacionesPorFecha();
     }
 }

@@ -5,7 +5,7 @@ import pool from "../database";
 class TrasladosAdquiridosController {
   
   public async create(req: Request, res: Response): Promise<void> {
-    console.log(req.body);
+    
     let trasladoAdquirido = req.body[0];
     let mejoras = req.body[1];
 
@@ -26,9 +26,9 @@ class TrasladosAdquiridosController {
 
   public async listOne(req: Request, res: Response): Promise<void> {
     const { idTrasladoAdquirido } = req.params;
-    console.log(`******`);
-    console.log(idTrasladoAdquirido);
-    console.log( `SELECT * FROM trasladosadquiridos WHERE idTrasladoAdquirido= ${idTrasladoAdquirido}`);
+    
+    
+    
     const resp = await pool.query(
       `SELECT * FROM trasladosadquiridos WHERE idTrasladoAdquirido= ${idTrasladoAdquirido}`,
       
@@ -47,7 +47,7 @@ class TrasladosAdquiridosController {
 
 
       const resp = await pool.query("INSERT INTO trasladosadquiridosinfo set ?", [req.body]);
-      console.log("--------------",resp);
+      
 
       if (req.body.tipo == 1) {
         const costoProducto = await pool.query(`INSERT INTO productoscostos (idProductoAdquirido,idCotizacion,tipo,costoCotizado,costoNeto,precioComprado,completado) VALUES (${req.body.idTrasladoAdquirido}, ${req.body.idCotizacion}, 1, ${precioComprado}, ${costoNeto}, 0, 0)`);
@@ -100,8 +100,8 @@ class TrasladosAdquiridosController {
       delete  trasladoAdquirido.total;
       delete trasladoAdquirido.idCotizacion;
       
-      console.log("total", total);
-      console.log("idCotizacion", idCotizacion);
+      
+      
 
     const resp = await pool.query('UPDATE trasladosadquiridos SET ? WHERE idTrasladoAdquirido = ?', [trasladoAdquirido, idTrasladoAdquirido]);
     const respD = await pool.query('DELETE FROM trasladoAdquiridoUpgrade WHERE idTrasladoAdquirido = ?', [idTrasladoAdquirido]);

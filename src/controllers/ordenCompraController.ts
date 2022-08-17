@@ -7,7 +7,7 @@ class OrdenCompraController {
   public async create(req: Request, res: Response): Promise<void> {
     let orden = req.body[0];     
 
-    console.log(orden); 
+    
       const resp = await pool.query('INSERT INTO ordencompra set ?', [orden]);
 //    let idAgente = resp.insertId;
     res.json(`Agente agregado`);
@@ -18,7 +18,7 @@ public async update(req: Request, res: Response): Promise<void> {
   let estado = req.body[1];
  
   let consulta=`UPDATE ordencompra SET estado =  ${orden.estado}  WHERE idCotizacion = ${orden.idCotizacion}`;
-  console.log(consulta);
+  
   const resp = await pool.query(consulta);
   const { affectedRows } = resp;
 

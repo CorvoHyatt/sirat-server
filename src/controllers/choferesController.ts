@@ -6,7 +6,7 @@ class ChoferesController
 {
   constructor()
   {
-    console.log("hola");
+    
   }
   getMonth(date:any) 
   { 
@@ -15,7 +15,7 @@ class ChoferesController
   }
   getDia(dia:number) 
   {
-    console.log("getDia");
+    
     return dia < 10 ? '0' + dia : '' + dia; 
   }
   public async esAceptado(req: Request, res: Response): Promise<void> {
@@ -29,7 +29,7 @@ class ChoferesController
     const { correo} = req.params;
     var hoy = new Date(); 
     var quinceDias= new Date(); 
-    console.log("listTrasladosChofer15");
+    
     quinceDias.setDate(quinceDias.getDate()+15);
     var fecha=hoy.getFullYear()+'-'+( (hoy.getMonth()+1)<10 ? '0'+ (hoy.getMonth()+1):''+(hoy.getMonth()+1))+'-'+(hoy.getDate() < 10 ? '0' + hoy.getDate() : '' + hoy.getDate());              
     var fechaQuince=quinceDias.getFullYear()+'-'+((quinceDias.getMonth()+1)<10 ? '0'+ (quinceDias.getMonth()+1):''+(quinceDias.getMonth()+1))+'-'+(quinceDias.getDate() < 10 ? '0' + quinceDias.getDate() : '' + quinceDias.getDate()); 
@@ -42,7 +42,7 @@ class ChoferesController
             WHERE TAI.idCiudad=C.idCiudad AND TAI.estado=1  AND fechaDesde>'${fecha}' AND fechaDesde<'${fechaQuince}' AND CIP.principal=1 
             ORDER BY fechaDesde
             `;
-      console.log(consulta);
+      
       const respuesta = await pool.query(consulta);
 
     res.json(respuesta);
@@ -65,7 +65,7 @@ class ChoferesController
                        
             ORDER BY fechaDesde, SUBSTRING(horarioDesde,7,8) ASC
             `;
-      console.log(consulta);
+      
       const respuesta = await pool.query(consulta);
 
     res.json(respuesta);
@@ -91,7 +91,7 @@ class ChoferesController
             )            
             ORDER BY fechaDesde, SUBSTRING(horarioDesde,7,8) ASC
             `;
-      console.log("*********",consulta);
+      
       const respuesta = await pool.query(consulta);
 
     res.json(respuesta);
@@ -113,7 +113,7 @@ class ChoferesController
             WHERE TAI.idCiudad=C.idCiudad AND TAI.estado=0  AND fechaDesde>='${fecha}' AND fechaDesde<='${fechaQuince}' AND CIP.principal=1           
             ORDER BY fechaDesde, SUBSTRING(horarioDesde,7,8) ASC
             `;
-      console.log("--------",consulta);
+      
       const respuesta = await pool.query(consulta);
 
     res.json(respuesta);
@@ -135,7 +135,7 @@ class ChoferesController
             WHERE TAI.idCiudad=C.idCiudad AND TAI.estado=0  AND fechaDesde>='${fecha}' AND fechaDesde<='${fechaQuince}' AND CIP.principal=1           
             ORDER BY fechaDesde, SUBSTRING(horarioDesde,7,8) ASC
             `;
-     console.log("+++++++++++++++",consulta);
+     
       const respuesta = await pool.query(consulta);
 
     res.json(respuesta);

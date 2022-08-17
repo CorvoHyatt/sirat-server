@@ -61,7 +61,7 @@ module.exports = (formulario: any) => {
 
         };
     
-    console.log(message);
+    
 
     server.send(message, function(err:any, message:any) { console.log(err); });
 }

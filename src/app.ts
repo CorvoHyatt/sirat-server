@@ -60,12 +60,12 @@ class Server
     routes(): void {
 
         this.app.post('/enviarPDF', (req, res) => { 
-            console.log("/enviarPDF");
+            
             const enviarPDF = new EnviarPDF(req.body, res);
             enviarPDF.send();
         });
         this.app.post('/enviarPDFOrdenCompra', (req, res) => { 
-            console.log("/enviarPDFOrdenCompra");
+            
             const enviarPDFOrdenCompra = new EnviarPDFOrdenCompra(req.body, res);
             enviarPDFOrdenCompra.send();
         });
@@ -298,7 +298,7 @@ class Server
         {
             let extFact = req.body.extFact;    
             let consulta=`INSERT INTO factura (extension) VALUES ('${extFact}')`;    
-            console.log(consulta);
+            
             return new Promise((resolve :any, reject : any)=> 
             { 
                 pool.query(consulta, (error:any, results:any)=> 
@@ -307,12 +307,12 @@ class Server
                     { 
                         return reject(error); 
                     } 
-                    console.log(__dirname);
+                    
                     const file = req.body.src;
                     const binaryData = Buffer.from(file.replace(/^data:.*,/, ""), 'base64');
                     fs.writeFile(`${__dirname}/img/facturas/${results.insertId}.${extFact}`, binaryData, "base64", (err) => 
                     {
-                        console.log(results.insertId);
+                        
                         return  res.json(results.insertId); 
                     });
         
@@ -322,8 +322,8 @@ class Server
 
         this.app.post('/uploadPDF', (req, res) => 
         {
-            console.log("/uploadPDF");
-            console.log(__dirname);
+            
+            
             const file = req.body.src;
             const name = req.body.idCotizacion+"_"+req.body.versionCotizacion;
             const binaryData = Buffer.from(file.replace(/^data:.*,/, ""), 'base64');
@@ -335,8 +335,8 @@ class Server
         });
         this.app.post('/uploadPDFOrdenCompra', (req, res) => 
         {
-            console.log("/uploadPDFOrdenCompra");
-            console.log(__dirname);
+            
+            
             const file = req.body.src;
             const name = req.body.idCotizacion;
             const binaryData = Buffer.from(file.replace(/^data:.*,/, ""), 'base64');
@@ -430,8 +430,8 @@ class Server
 
         this.app.post('/uploadImgCiudad', async (req, res) => {
             try {
-                console.log("********************************************* uploadImgCiudad *********************************");
-            console.log(req.body);
+                
+            
             const imagenesPortada = req.body.files[0];
             const imagenesM = req.body.files[1];
             const imagenesP = req.body.files[2];
@@ -481,12 +481,12 @@ class Server
             i=1;
             for (let index = 0; index < 3; index++) {
                 if (imagenesM[index] != null && imagenesM[index] != -1) {
-                    console.log( `Insertando ediana ${i} `);
+                    
 
                     try{
                         var sourceUrls = __dirname + `/img/evento/${idCiudad}_${i}.jpg`;
                         fs.unlinkSync(sourceUrls);
-                        console.log("se elimino");
+                        
                        }catch(err){}
                     const resp = await pool.query(`INSERT INTO ciudadImagenes (idCiudad, tipo, num) VALUES (${idCiudad},2, ${i})`);
                     const binaryData = Buffer.from(imagenesM[index].src.replace(/^data:image\/[a-z]+;base64,/, ""), 'base64').toString('binary');
@@ -498,7 +498,7 @@ class Server
                     try{
                         var sourceUrls = __dirname + `/img/evento/${idCiudad}_${i}.jpg`;
                         fs.unlinkSync(sourceUrls);
-                        console.log("se elimino");
+                        
                        }catch(err){}
                 }
                 i++;
@@ -508,12 +508,12 @@ class Server
             i=1;
             for (let index = 0; index < 3; index++) {
                 if (imagenesP[index] != null && imagenesP[index] != -1) {
-                    console.log( `Insertando p ${i} `);
+                    
 
                     try{
                         var sourceUrls = __dirname + `/img/daybyday/${idCiudad}_${i}.jpg`;
                         fs.unlinkSync(sourceUrls);
-                        console.log("se elimino");
+                        
                        }catch(err){}
                     const resp = await pool.query(`INSERT INTO ciudadImagenes (idCiudad, tipo, num) VALUES (${idCiudad},3, ${i})`);
                     const binaryData = Buffer.from(imagenesP[index].src.replace(/^data:image\/[a-z]+;base64,/, ""), 'base64').toString('binary');
@@ -525,7 +525,7 @@ class Server
                     try{
                         var sourceUrls = __dirname + `/img/daybyday/${idCiudad}_${i}.jpg`;
                         fs.unlinkSync(sourceUrls);
-                        console.log("se elimino");
+                        
                        }catch(err){}
                 }
                 i++;
@@ -535,12 +535,12 @@ class Server
               for (let index = 0; index < 3; index++) {
                 
                 if (imagenesO[index] != null && imagenesO[index] != -1) {
-                    console.log( `Insertando o ${i} `);
+                    
 
                     try{
                         var sourceUrls = __dirname + `/img/opciones/${idCiudad}_${i}.jpg`;
                         fs.unlinkSync(sourceUrls);
-                        console.log("se elimino");
+                        
                        }catch(err){}
                     const resp = await pool.query(`INSERT INTO ciudadImagenes (idCiudad, tipo, num) VALUES (${idCiudad},4, ${i})`);
                     const binaryData = Buffer.from(imagenesO[index].src.replace(/^data:image\/[a-z]+;base64,/, ""), 'base64').toString('binary');
@@ -552,7 +552,7 @@ class Server
                     try{
                         var sourceUrls = __dirname + `/img/opciones/${idCiudad}_${i}.jpg`;
                         fs.unlinkSync(sourceUrls);
-                        console.log("se elimino");
+                        
                        }catch(err){}
                 }
                 i++;
@@ -566,7 +566,7 @@ class Server
         
         this.app.post('/refreshImgCiudad', async (req, res) => {
             try {
-              console.log(req.body);
+              
               const imagenesPortada = req.body.files[0];
               const imagenesM = req.body.files[1];
               const imagenesP = req.body.files[2];
@@ -593,7 +593,7 @@ class Server
                         try{
                             var sourceUrls = __dirname + `/img/portada/${idCiudad}_${existentesPortada[index].num}.jpg`;
                             fs.unlinkSync(sourceUrls);
-                            console.log(` se eliminó: portada/${idCiudad}_${existentesPortada[index].num}.jpg`);
+                            
                         }catch(err){}
                     } 
                     
@@ -664,12 +664,12 @@ class Server
               i=1;
               for (let index = 0; index < 3; index++) {
                   if (imagenesM[index] != null && imagenesM[index] != -1) {
-                      console.log( `Insertando ediana ${i} `);
+                      
   
                       try{
                           var sourceUrls = __dirname + `/img/evento/${idCiudad}_${i}.jpg`;
                           fs.unlinkSync(sourceUrls);
-                          console.log("se elimino");
+                          
                          }catch(err){}
                       const resp = await pool.query(`INSERT INTO ciudadImagenes (idCiudad, tipo, num) VALUES (${idCiudad},2, ${i})`);
                       const binaryData = Buffer.from(imagenesM[index].src.replace(/^data:image\/[a-z]+;base64,/, ""), 'base64').toString('binary');
@@ -681,7 +681,7 @@ class Server
                       try{
                           var sourceUrls = __dirname + `/img/evento/${idCiudad}_${i}.jpg`;
                           fs.unlinkSync(sourceUrls);
-                          console.log("se elimino");
+                          
                          }catch(err){}
                   }
                   i++;
@@ -691,12 +691,12 @@ class Server
               i=1;
               for (let index = 0; index < 3; index++) {
                   if (imagenesP[index] != null && imagenesP[index] != -1) {
-                      console.log( `Insertando p ${i} `);
+                      
   
                       try{
                           var sourceUrls = __dirname + `/img/daybyday/${idCiudad}_${i}.jpg`;
                           fs.unlinkSync(sourceUrls);
-                          console.log("se elimino");
+                          
                          }catch(err){}
                       const resp = await pool.query(`INSERT INTO ciudadImagenes (idCiudad, tipo, num) VALUES (${idCiudad},3, ${i})`);
                       const binaryData = Buffer.from(imagenesP[index].src.replace(/^data:image\/[a-z]+;base64,/, ""), 'base64').toString('binary');
@@ -708,7 +708,7 @@ class Server
                       try{
                           var sourceUrls = __dirname + `/img/daybyday/${idCiudad}_${i}.jpg`;
                           fs.unlinkSync(sourceUrls);
-                          console.log("se elimino");
+                          
                          }catch(err){}
                   }
                   i++;
@@ -718,12 +718,12 @@ class Server
                 for (let index = 0; index < 3; index++) {
                   
                   if (imagenesO[index] != null && imagenesO[index] != -1) {
-                      console.log( `Insertando o ${i} `);
+                      
   
                       try{
                           var sourceUrls = __dirname + `/img/opciones/${idCiudad}_${i}.jpg`;
                           fs.unlinkSync(sourceUrls);
-                          console.log("se elimino");
+                          
                          }catch(err){}
                       const resp = await pool.query(`INSERT INTO ciudadImagenes (idCiudad, tipo, num) VALUES (${idCiudad},4, ${i})`);
                       const binaryData = Buffer.from(imagenesO[index].src.replace(/^data:image\/[a-z]+;base64,/, ""), 'base64').toString('binary');
@@ -735,7 +735,7 @@ class Server
                       try{
                           var sourceUrls = __dirname + `/img/opciones/${idCiudad}_${i}.jpg`;
                           fs.unlinkSync(sourceUrls);
-                          console.log("se elimino");
+                          
                          }catch(err){}
                   }
                   i++;
@@ -758,7 +758,7 @@ class Server
                     try{
                         var sourceUrls = __dirname + `/img/producto/${idProducto}_${index+1}.jpg`;
                         fs.unlinkSync(sourceUrls); 
-                        console.log("se elimino");
+                        
                     } catch (err) { }
                     
                     const resp = await pool.query(`INSERT INTO productoImagenes (idProducto, num) VALUES (${idProducto}, ${index+1})`);
@@ -771,7 +771,7 @@ class Server
                     try{
                         var sourceUrls = __dirname + `/img/producto/${idProducto}_${index+1}.jpg`;
                         fs.unlinkSync(sourceUrls); 
-                        console.log("se elimino");
+                        
                        }catch(err){}
                 }
             }
@@ -783,13 +783,13 @@ class Server
 
 
         this.app.post('/correoConfirmacion', (req, res) => {
-            console.log('/correoConfirmacion');
+            
             correoConfirmacion(req.body);
             res.status(200).send();
         });
 
         this.app.post('/correoAcceso', (req, res) => {
-            console.log('/correoAcceso');
+            
             correoAcceso(req.body);
             res.status(200).send();
         });
@@ -800,13 +800,13 @@ class Server
     
 
     start() {
-        console.log("Bandera",process.env.BANDERA);
-        console.log("Liga",process.env.LIGA);
+        
+        
         if(Number( process.env.BANDERA)==1)
         {
             this.app.listen(this.app.get('port'), () => 
             {
-                console.log(`Listening on port ${this.app.get('port')}`);
+                
             });
     
         }
@@ -819,7 +819,7 @@ class Server
                             
             }, this.app).listen(this.app.get('port'), () => 
             {
-                 console.log('https listening on port ' + this.app.get('port'));
+                 
             })            
         }
     }

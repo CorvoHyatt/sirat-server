@@ -18,7 +18,7 @@ class CanastaController {
   public async listOneCotizacionByUserByVersionResumen(req: Request, res: Response): Promise<void> 
   {
     const { idUser, idCotizacion, version, versionCotizacion } = req.params;
-    console.log("**********",idCotizacion,versionCotizacion);
+    
     const cotizacionDestino = await pool.query(`SELECT * FROM cotizaciones_destinos WHERE idCotizacion = ?`, [idCotizacion]);
     let cotizacion: any;
     let isEmptyCotizacion = await pool.query(`SELECT c.*, d.divisa FROM cotizaciones c INNER JOIN divisasbase d ON c.divisa = d.idDivisaBase WHERE c.idCotizacion = ? AND c.version = ?` , [idCotizacion, versionCotizacion]);
@@ -35,12 +35,12 @@ class CanastaController {
     }
     let consulta=`SELECT v.tipo,v.idActividad FROM versiones v  INNER JOIN cotizaciones co ON v.idCotizacion = co.idCotizacion WHERE v.idCotizacion = ${idCotizacion} AND v.versionCotizacion = ${versionCotizacion} AND v.accion = 1`;
     let canastaProducts = await pool.query(consulta);
-    console.log(canastaProducts);
+    
     for(let data of canastaProducts)
     {
       switch(data.tipo){
         case 1: //traslados
-          console.log("Traslados");
+          
           let consultaTraslado=`
           SELECT V.tipo, c.idCiudad as idCiudad,c.nombre AS lugar, DATE_FORMAT(ta.fecha, '%Y-%m-%d') as fecha ,   c.nombre AS nombre, l1.nombre AS desde, l2.nombre AS hacia,ta.hora,0 as categoria,ta.descripcion as descripcion, c.presentacion as descripcionCiudad,ta.idTrasladoAdquirido as id,PPT.total as precioTotal,ta.opcional as opcional,ta.pasajeros
           FROM trasladosadquiridos ta
@@ -52,12 +52,12 @@ class CanastaController {
           INNER JOIN productospreciostotales PPT ON PPT.idCotizacion=${idCotizacion} AND PPT.idProducto=${data.idActividad} AND PPT.tipoProducto=V.tipo
           WHERE V.idActividad=${data.idActividad} AND V.tipo=1 AND  V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`;
           const traslado = await pool.query(consultaTraslado);
-          console.log("consultaTraslado");
-          console.log(consultaTraslado);          
+          
+          
           data.datos = traslado[0];
           break;
         case 2://disposiciones
-        console.log("Disposiciones");        
+        
           let consultaDisposicion=`
           SELECT V.tipo, c.idCiudad as idCiudad, c.nombre as lugar,DATE_FORMAT(da.fecha, '%Y-%m-%d') as fecha , l.nombre AS nombre, '' as desde, '' as hacia,da.hora,0 as categoria, da.descripcion as descripcion, c.presentacion as descripcionCiudad,da.idDisposicionAdquirida as id,PPT.total as precioTotal,da.opcional as opcional
           FROM disposicionesadquiridas da 
@@ -73,7 +73,7 @@ class CanastaController {
           data.datos = disposicion[0];
           break;
         case 3://traslados otros
-        console.log("Traslados otros");
+        
           let consultaTrasladoOtros="";
           let consultaVerificar=`
           SELECT  desde,hacia 
@@ -123,7 +123,7 @@ class CanastaController {
           data.datos = trasladoOtro[0];
           break;
         case 4://hotel
-        console.log("Hotel");
+        
           var hotel;          
           let consultaHotel=`SELECT 4 as tipo,c.idCiudad as idCiudad,c.nombre as lugar, DATE_FORMAT(checkin, '%Y-%m-%d') as fecha , ha.nombre,'' as desde,'' as hacia,'22:00' as hora,ha.categoria as categoriaNombre,ha.estrellas as categoria,CONCAT('', ha.nombre) as descripcion, c.presentacion as descripcionCiudad, ha.idHotelAdquirido as id,PPT.total as precioTotal,ha.opcional as opcional,DATE_FORMAT(checkout, '%Y-%m-%d') as fechaSalida,ha.direccion,ha.telefono,ha.desayuno,ha.noPersonas as pasajeros
           FROM hotelesadquiridos  ha
@@ -136,7 +136,7 @@ class CanastaController {
           data.datos = hotel[0];
           break;
         case 5://vuelo
-        console.log("Vuelo");
+        
           var vuelo;          
           let consultaVueloInfo=`SELECT idVuelo FROM vuelosInfo  WHERE idVuelo = ${data.idActividad}`;
           const vueloInfo = await pool.query(consultaVueloInfo);
@@ -172,7 +172,7 @@ class CanastaController {
           data.datos = vuelo[0];
           break;
         case 6://tren
-        console.log("Tren");
+        
           let consultaTren=`SELECT V.tipo, c.idCiudad as idCiudad, c.nombre as lugar,DATE_FORMAT(fecha, '%Y-%m-%d') as fecha, '' as nombre, c1.nombre as desde,c2.nombre as hacia,horario as hora,0 as categoria,T.descripcion as descripcion, c.presentacion as descripcionCiudad, T.idTren  as id,PPT.total as precioTotal,T.opcional as opcional
           FROM trenes T  
           INNER JOIN cotizaciones_destinos cd ON cd.idDestino = T.idDestino
@@ -187,7 +187,7 @@ class CanastaController {
           break;
           
         case 7:
-          console.log("Productos");
+          
           let consultaProducto =`SELECT V.tipo,c.idCiudad as idCiudad, c.nombre as lugar,DATE_FORMAT(pa.fecha, '%Y-%m-%d') as fecha, p.titulo as nombre, c.nombre AS desde,'' as hacia, pa.horario as hora, p.categoria,p.titulo as descripcion, c.presentacion as descripcionCiudad, p.duracion, pi.incluye,pa.idProducto as tipoProducto,pa.opcional as opcional, pa.idProductoAdquirido as id,PPT.precioPorPersona,PPT.total as precioTotal,(SELECT GROUP_CONCAT(PE.nombre SEPARATOR '\n*') AS entradas FROM productosentradas PE WHERE PE.idProducto=p.idProducto) AS entradas, p.resumen,p.descripcion as descripcionDetallada
           FROM productosadquiridos pa
           INNER JOIN productos p ON pa.idProducto = p.idProducto
@@ -196,12 +196,12 @@ class CanastaController {
           INNER JOIN versiones V ON V.idActividad=pa.idProductoAdquirido 
           INNER JOIN productospreciostotales PPT ON PPT.idCotizacion=${idCotizacion} AND PPT.idProducto=${data.idActividad} AND PPT.tipoProducto=V.tipo
           WHERE V.idActividad=${data.idActividad} AND V.tipo=7  AND V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`;
-          console.log(consultaProducto);
+          
           const producto = await pool.query(consultaProducto);
           data.datos = producto[0];
           break;
         case 8:
-          console.log("Extras");
+          
             let consultaExtra = `SELECT V.tipo,c.idCiudad as idCiudad, c.nombre as lugar,DATE_FORMAT(e.fecha, '%Y-%m-%d') as fecha, e.extras as nombre, c.nombre AS desde,'' as hacia,'' as hora, 0 as categoria,e.extras  as descripcion, c.presentacion as descripcionCiudad, 0 as duracion, 0 as tipoProducto,e.opcional as opcional, e.idextras as id,PPT.total as precioTotal
             FROM extras e 
             INNER JOIN ciudad c ON e.idCiudad = c.idCiudad  
@@ -452,7 +452,7 @@ class CanastaController {
       INNER JOIN cotizaciones co ON v.idCotizacion = co.idCotizacion
       WHERE v.idCotizacion = ? AND v.versionCotizacion = ? AND v.accion = 1`
       , [idCotizacion, versionCotizacion]);
-    console.log("Version productos", versionProducts);
+    
     for(let data of versionProducts){
       switch(data.tipo){
         case 1:
@@ -471,7 +471,7 @@ class CanastaController {
           const info = await pool.query(`SELECT * FROM trasladosadquiridosinfo WHERE idTrasladoAdquirido =${data.idActividad} AND completado = 1 AND tipo =1 `);
           data.infoExtra = info[0];
 
-          console.log(info);
+          
           break;
         case 2:
           const disposicion = await pool.query(`
@@ -492,12 +492,12 @@ class CanastaController {
           
           break; 
         case 3:
-          console.log("Entrando a traslados otros...");
+          
           const lugares = await pool.query(`SELECT desde, hacia FROM trasladosotros WHERE idtrasladoOtro = ?`, [data.idActividad]);
           const regex = /^[0-9]*$/;
           let trasladoOtro: any;
           if (regex.test(lugares[0].desde) && !regex.test(lugares[0].hacia)) {
-            console.log("Query 1");
+            
             trasladoOtro = await pool.query(`
               SELECT 3 AS tipo, t.*, t.hora AS horario, c.nombre AS ciudad, vh.nombre AS vehiculo, d.divisa, l.nombre AS desde, l.idLugar AS idDesde
               FROM trasladosotros t
@@ -508,7 +508,7 @@ class CanastaController {
               INNER JOIN versiones V ON V.idActividad=t.idTrasladoOtro WHERE V.idActividad=${data.idActividad} AND V.tipo=3 AND V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`
             , [data.idActividad]);
           } else if (!regex.test(lugares[0].desde) && regex.test(lugares[0].hacia)) {
-            console.log("Query 2");
+            
             trasladoOtro = await pool.query(`
               SELECT 3 AS tipo, t.*, t.hora AS horario, c.nombre AS ciudad, vh.nombre AS vehiculo, d.divisa, l.nombre AS hacia, l.idLugar AS idHacia
               FROM trasladosotros t 
@@ -519,15 +519,6 @@ class CanastaController {
               INNER JOIN versiones V ON V.idActividad=t.idTrasladoOtro WHERE V.idActividad=${data.idActividad} AND V.tipo=3 AND V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`
             , [data.idActividad]);
           } else {
-            console.log("Query 3",`
-            SELECT 3 AS tipo, t.*, t.hora AS horario, c.nombre AS ciudad, vh.nombre AS vehiculo, d.divisa, l1.nombre AS desde, l1.idLugar AS idDesde, l2.nombre AS hacia, l2.idLugar AS idHacia
-            FROM trasladosotros t
-            INNER JOIN ciudad c ON t.idCiudad = c.idCiudad
-            INNER JOIN vehiculo vh ON t.idVehiculo = vh.idVehiculo
-            INNER JOIN divisas d ON t.idDivisa = d.idDivisa
-            INNER JOIN lugares l1 ON t.desde = l1.idLugar
-            INNER JOIN lugares l2 ON t.hacia = l2.idLugar
-            INNER JOIN versiones V ON V.idActividad=t.idTrasladoOtro WHERE V.idActividad=${data.idActividad} AND V.tipo=3 AND V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`);
             trasladoOtro = await pool.query(`
               SELECT 3 AS tipo, t.*, t.hora AS horario, c.nombre AS ciudad, vh.nombre AS vehiculo, d.divisa, l1.nombre AS desde, l1.idLugar AS idDesde, l2.nombre AS hacia, l2.idLugar AS idHacia
               FROM trasladosotros t
@@ -540,13 +531,13 @@ class CanastaController {
             , [data.idActividad]);
           }
 
-          console.log(trasladoOtro);
+          
           data.trasladoOtro = trasladoOtro[0];
-          console.log(`SELECT * FROM trasladosadquiridosinfo WHERE idTrasladoAdquirido =${data.idActividad} AND completado = 1 AND tipo =2 `);
+          
           const infoOtro = await pool.query(`SELECT * FROM trasladosadquiridosinfo WHERE idTrasladoAdquirido =${data.idActividad} AND completado = 1 AND tipo =2 `);
           data.infoExtra = infoOtro[0];
           
-          console.log(infoOtro);
+          
           break;
         case 4:
           const hotel = await pool.query(`
@@ -717,15 +708,7 @@ class CanastaController {
     for(let data of versionProducts){
       switch(data.tipo){
         case 1:
-          console.log(`
-          SELECT 1 AS tipo, ta.idTrasladoAdquirido, ta.idTraslado, ta.idTrasladoCosto, ta.fecha, ta.hora AS horario, ta.tarifa, ta.notas, ta.descripcion, ta.equipaje, ta.pasajeros, ta.comision, ta.comisionAgente, ta.opcional, t.cancelaciones, t.otraCiudad, t.muelle, t.idCiudad, c.nombre AS ciudad, l1.nombre AS desde, l2.nombre AS hacia
-          FROM trasladosadquiridos ta
-          INNER JOIN traslados t ON ta.idTraslado = t.idTraslado
-          INNER JOIN lugares l1 ON t.idDesde = l1.idLugar
-          INNER JOIN lugares l2 ON t.idHacia = l2.idLugar
-          INNER JOIN ciudad c ON t.idCiudad = c.idCiudad
-          INNER JOIN versiones V ON V.idActividad=ta.idTrasladoAdquirido
-          WHERE V.idActividad=${data.idActividad} AND V.tipo=1 AND V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`);
+        
           const traslado = await pool.query(`
           SELECT 1 AS tipo, ta.idTrasladoAdquirido, ta.idTraslado, ta.idTrasladoCosto, ta.fecha, ta.hora AS horario, ta.tarifa, ta.notas, ta.descripcion, ta.equipaje, ta.pasajeros, ta.comision, ta.comisionAgente, ta.opcional, t.cancelaciones, t.otraCiudad, t.muelle, t.idCiudad, c.nombre AS ciudad, l1.nombre AS desde, l2.nombre AS hacia
           FROM trasladosadquiridos ta
@@ -753,12 +736,12 @@ class CanastaController {
           data.disposicion = disposicion[0];
           break;
         case 3:
-          console.log("Entrando a traslados otros...");
+          
           const lugares = await pool.query(`SELECT desde, hacia FROM trasladosotros WHERE idtrasladoOtro = ?`, [data.idActividad]);
           const regex = /^[0-9]*$/;
           let trasladoOtro: any;
           if (regex.test(lugares[0].desde) && !regex.test(lugares[0].hacia)) {
-            console.log("Query 1");
+            
             trasladoOtro = await pool.query(`
               SELECT 3 AS tipo, t.*, t.hora AS horario, c.nombre AS ciudad, vh.nombre AS vehiculo, d.divisa, l.nombre AS desde, l.idLugar AS idDesde
               FROM trasladosotros t
@@ -769,7 +752,7 @@ class CanastaController {
               INNER JOIN versiones V ON V.idActividad=t.idTrasladoOtro WHERE V.idActividad=${data.idActividad} AND V.tipo=3 AND V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`
             , [data.idActividad]);
           } else if (!regex.test(lugares[0].desde) && regex.test(lugares[0].hacia)) {
-            console.log("Query 2");
+            
             trasladoOtro = await pool.query(`
               SELECT 3 AS tipo, t.*, t.hora AS horario, c.nombre AS ciudad, vh.nombre AS vehiculo, d.divisa, l.nombre AS hacia, l.idLugar AS idHacia
               FROM trasladosotros t 
@@ -792,7 +775,7 @@ class CanastaController {
               INNER JOIN versiones V ON V.idActividad=t.idTrasladoOtro WHERE V.idActividad=${data.idActividad} AND V.tipo=3 AND V.idCotizacion=${idCotizacion} AND V.versionCotizacion=${versionCotizacion} AND V.accion=1`
             , [data.idActividad]);
           }
-          console.log(trasladoOtro);
+          
           data.trasladoOtro = trasladoOtro[0];
           break;
         case 4:

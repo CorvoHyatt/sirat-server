@@ -9,7 +9,7 @@ class IncrementosController {
         `INSERT INTO incrementos (idActividad,tipoActividad, tipo, nombre,porcentaje) VALUES (${id}, ${req.body[index][0].tipoActividad}, ${req.body[index][0].tipo}, '${req.body[index][0].nombre}', ${req.body[index][0].porcentaje})`
       );
       let idIncremento = res1.insertId;
-      // console.log(idIncremento);
+      // 
       for (let index2 = 0; index2 < req.body[index][1].length; index2++) {
         if (req.body[index][0].tipo == 1) {
           //Incremento de horas
@@ -39,7 +39,7 @@ class IncrementosController {
         `SELECT i.*, SUBSTRING_INDEX(GROUP_CONCAT(ifechas.fechaInicial), ', ', 10) AS fechaInicial, SUBSTRING_INDEX(GROUP_CONCAT(ifechas.fechaFinal), ', ', 10) AS fechaFinal FROM incrementos i INNER JOIN incrementos_fechas ifechas ON ifechas.idIncremento = i.idIncremento WHERE i.idActividad=${idActividad} AND i.tipoActividad=${tipoActividad} GROUP BY i.idIncremento`
       );
 
-      console.log( `SELECT i.*, SUBSTRING_INDEX(GROUP_CONCAT(ifechas.fechaInicial), ', ', 10) AS fechaInicial, SUBSTRING_INDEX(GROUP_CONCAT(ifechas.fechaFinal), ', ', 10) AS fechaFinal FROM incrementos i INNER JOIN incrementos_fechas ifechas ON ifechas.idIncremento = i.idIncremento WHERE i.idActividad=${idActividad} AND i.tipoActividad=${tipoActividad} GROUP BY i.idIncremento`);
+      
       let incrementos: any[][] = [];
       resp.forEach((r: any) => {
         let incremento = {
@@ -82,9 +82,6 @@ class IncrementosController {
     const resp = await pool.query(
       `SELECT i.*, SUBSTRING_INDEX(GROUP_CONCAT(ihoras.horaInicial), ', ', 10) AS horasIniciales, SUBSTRING_INDEX(GROUP_CONCAT(ihoras.horaFinal), ', ', 10) AS horasFinales FROM incrementos i INNER JOIN incrementos_horas ihoras ON ihoras.idIncremento = i.idIncremento WHERE i.idActividad=${idActividad} AND i.tipoActividad=${tipoActividad} GROUP BY i.idIncremento`
     );
-    console.log(
-      `SELECT i.*, SUBSTRING_INDEX(GROUP_CONCAT(ihoras.horaInicial), ', ', 10) AS horasIniciales, SUBSTRING_INDEX(GROUP_CONCAT(ihoras.horaFinal), ', ', 10) AS horasFinales FROM incrementos i INNER JOIN incrementos_horas ihoras ON ihoras.idIncremento = i.idIncremento WHERE i.idActividad=${idActividad} AND i.tipoActividad=${tipoActividad} GROUP BY i.idIncremento`
-    );
 
 
     let incrementos: any[][] = [];
@@ -120,12 +117,12 @@ class IncrementosController {
       const { id,tipoActividad } = req.params;
 
       try {
-        console.log( `DELETE FROM incrementos WHERE idActividad =${id} AND tipoActividad=${tipoActividad} `);
+        
         const resp=await pool.query(
           `DELETE FROM incrementos WHERE idActividad =${id} AND tipoActividad=${tipoActividad} `
         ); 
       } catch (error) {
-        console.log(`DELETE FROM incrementos WHERE idActividad =${id} AND tipoActividad=${tipoActividad}`, error);
+        
       }
  
       for (let index = 0; index < req.body.length; index++) {
@@ -137,7 +134,7 @@ class IncrementosController {
           req.body[index][0].idIncremento = res1.insertId;
 
         } catch (error) {
-          console.log(`INSERT INTO incrementos (idIncremento,idActividad,tipoActividad, tipo, nombre,porcentaje) VALUES (${req.body[index][0].idIncremento},${id}, ${req.body[index][0].tipoActividad}, ${req.body[index][0].tipo}, '${req.body[index][0].nombre}', ${req.body[index][0].porcentaje})`, error);
+          
         }
          
         for (let index2 = 0; index2 < req.body[index][1].length; index2++) {
@@ -148,7 +145,7 @@ class IncrementosController {
                     `INSERT INTO incrementos_horas (idIncremento, horaInicial, horaFinal) VALUES (${req.body[index][0].idIncremento}, '${req.body[index][1][index2].horaInicial}', '${req.body[index][1][index2].horaFinal}')`
                 );
                 } catch (error) {
-                  console.log(`INSERT INTO incrementos_horas (idIncremento, horaInicial, horaFinal) VALUES (${req.body[index][0].idIncremento}, '${req.body[index][1][index2].horaInicial}', '${req.body[index][1][index2].horaFinal}')`, error);
+                  
                 }
               
             } else {//Incremento de fechas
@@ -156,7 +153,7 @@ class IncrementosController {
                   await pool.query(
                     `INSERT INTO incrementos_fechas (idIncremento, fechaInicial, fechaFinal) VALUES (${req.body[index][0].idIncremento}, '${req.body[index][1][index2].fechaInicial}', '${req.body[index][1][index2].fechaFinal}')`                    ); 
                 } catch (error) {
-                  console.log(`INSERT INTO incrementos_fechas (idIncremento, fechaInicial, fechaFinal) VALUES (${req.body[index][0].idIncremento}, '${req.body[index][1][index2].fechaInicial}', '${req.body[index][1][index2].fechaFinal}')` , error);
+                  
                 }
             }
         }

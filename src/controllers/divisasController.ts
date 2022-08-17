@@ -127,7 +127,7 @@ class DivisasController
         // divisasActuales.map((d: any) => {
         //     let p = divisas.find((o) => d.divisa == o.divisa);
         //     if(p === undefined && d.divisa != 'MXN'){
-        //         console.log('d', d);
+        //         
         //     }
         // });
 
@@ -135,7 +135,7 @@ class DivisasController
         //https://picodotdev.github.io/blog-bitix/2015/06/servicio-para-obtener-ratios-de-conversion-entre-divisas/
 
         //ACTUALIZAR VALORES BASE DE DIVISAS EN DB (USD, EUR)
-        // console.log('Me salte');
+        // 
         const divisasActualesBase = await pool.query("SELECT * FROM divisasbase WHERE divisa != 'MXN'");
         divisasActualesBase.map(async(DAB: any) => {
             let nuevaDivisaBase: any = {

@@ -4,12 +4,12 @@ import pool from '../database';
 class PagosParcialesController {
 
     public async create(req: Request, res: Response): Promise<void> {
-        console.log("create pagosParcialesController",req.body);
+        
         if(req.body.terminado=='true')
         req.body.terminado=1
         else
         req.body.terminado=0
-        console.log("despues ",req.body);
+        
         const resp = await pool.query("INSERT INTO productosCostosParciales set ?", [req.body]);
         await pool.query("UPDATE productoscostos SET precioComprado = precioComprado + ? WHERE idProductoCosto = ?", [req.body.pagoParcial, req.body.idProductoCosto]);
         if(req.body.terminado==1)
@@ -34,7 +34,7 @@ class PagosParcialesController {
             INNER JOIN divisas d ON pcp.idDivisa = d.idDivisa
             WHERE pcp.idProductoCosto = ${idProductoCosto}
         `;
-        console.log(consulta);
+        
         const historialPagos = await pool.query(consulta);
         for(let i = 0; i < historialPagos.length; i++){
             const factura = await pool.query(`SELECT * FROM facturasParciales`);

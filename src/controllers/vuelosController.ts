@@ -11,7 +11,7 @@ class VuelosController {
     {
         let consulta="SELECT * FROM aceptadosVuelos WHERE idVueloInfo="+req.body.idVueloInfo;
         const respConsulta = await pool.query(consulta);
-        console.log(respConsulta);
+        
         if(respConsulta.length==0)
         {
             const resp = await pool.query("INSERT INTO aceptadosVuelos set ?", [req.body]);
@@ -56,7 +56,7 @@ class VuelosController {
 
 
             const { idVuelo } = req.params;
-            console.log(upgrades);
+            
             const resp1 = await pool.query('UPDATE vuelos SET ?  WHERE idVuelo = ?', [vuelo, idVuelo]);
             const resp2 = await pool.query('DELETE FROM vuelosupgrade WHERE idVuelo = ?', [idVuelo]);
             if (upgrades != null) {

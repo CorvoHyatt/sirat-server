@@ -61,7 +61,7 @@ class NotificacionesController {
     public async count_sinFinalizar(req: Request, res: Response): Promise<any> {
         const { idUsuario } = req.params;
         const respuesta = await pool.query(`SELECT COUNT(idNotificacion) as c FROM notificaciones WHERE receptor=${idUsuario} AND estatus=0`);
-       // console.log(`count sin finalizar`,respuesta);
+       // 
         res.json(respuesta[0].c);
     }
 
@@ -96,7 +96,7 @@ class NotificacionesController {
     public async listAll_ByIdUsuarioEstatusTipoArea(req: Request, res: Response): Promise<any> {
         const { idUsuario,estatus,tipo, idArea } = req.params;
         const respuestas = await pool.query(`SELECT N.*, U.nombre FROM notificaciones N INNER JOIN usuarios U ON N.emisor= U.idUsuario WHERE N.receptor=${idUsuario} AND estatus=${estatus} AND tipo=${tipo} AND U.idArea=${idArea} ORDER BY N.createAt DESC`);
-        //console.log(`*****************SELECT N.*, U.nombre FROM notificaciones N INNER JOIN usuarios U ON N.emisor= U.idUsuario WHERE N.receptor=${idUsuario} AND estatus=${estatus} AND tipo=${tipo} AND U.idArea=${idArea} ORDER BY N.createAt DESC*****************`);
+        //
         respuestas.forEach((respuesta: any) => {
             respuesta.data = JSON.parse(respuesta.data);
         });

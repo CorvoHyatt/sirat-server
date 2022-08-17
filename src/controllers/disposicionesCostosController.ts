@@ -17,7 +17,7 @@ class DisposicionesCostosController {
 
   public async listByIdDisposicion(req: Request, res: Response): Promise<void> {
     const { idDisposicion } = req.params;
-console.log(`SELECT V.nombre vehiculo, DC.* FROM disposicionescostos DC INNER JOIN vehiculo V ON DC.idVehiculo=V.idVehiculo WHERE idDisposicion=${idDisposicion}`);
+
     const respuesta = await pool.query(
       `SELECT V.nombre vehiculo, DC.* FROM disposicionescostos DC INNER JOIN vehiculo V ON DC.idVehiculo=V.idVehiculo WHERE idDisposicion=${idDisposicion} ORDER BY DC.costo ASC`
     );
@@ -27,7 +27,7 @@ console.log(`SELECT V.nombre vehiculo, DC.* FROM disposicionescostos DC INNER JO
   public async create_list(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     for (let index = 0; index < req.body.length; index++) {
-      console.log(req.body[index]);
+      
       await pool.query(
         `INSERT INTO disposicionescostos (idDisposicion, idVehiculo, horasMinimo, costo, horaExtra) VALUES (${id}, ${req.body[index].idVehiculo}, ${req.body[index].horasMinimo} , ${req.body[index].costo}, ${req.body[index].horaExtra})`
       );
@@ -36,15 +36,13 @@ console.log(`SELECT V.nombre vehiculo, DC.* FROM disposicionescostos DC INNER JO
   }
 
   public async actualizar(req: Request, res: Response): Promise<void> {
-    console.log(`Actualizando disposiciones costos....`);
+    
     const { idDisposicion } = req.params;
     const resp = await pool.query(
       `DELETE FROM disposicionescostos WHERE idDisposicion = ${idDisposicion}`
     );
     for (let index = 0; index < req.body.length; index++) {
-      console.log(
-        `INSERT INTO disposicionescostos (idDisposicionCosto, idDisposicion, idVehiculo, horasMinimo, costo, horaExtra) VALUES (${req.body[index].idDisposicionCosto}, ${req.body[index].idDisposicion}, ${req.body[index].idVehiculo}, ${req.body[index].horasMinimo}, ${req.body[index].costo}, ${req.body[index].horaExtra})`
-      );
+      
       await pool.query(
         `INSERT INTO disposicionescostos (idDisposicionCosto, idDisposicion, idVehiculo, horasMinimo, costo, horaExtra) VALUES (${req.body[index].idDisposicionCosto}, ${req.body[index].idDisposicion}, ${req.body[index].idVehiculo}, ${req.body[index].horasMinimo}, ${req.body[index].costo}, ${req.body[index].horaExtra})`
       );
@@ -59,8 +57,7 @@ console.log(`SELECT V.nombre vehiculo, DC.* FROM disposicionescostos DC INNER JO
 
     try {
       const { idDisposicionCosto } = req.params;
-      console.log(
-        `SELECT * FROM disposicionescostos WHERE idDisposicionCosto= ${idDisposicionCosto} `    );
+      
       const respuesta = await pool.query(
         `SELECT * FROM disposicionescostos WHERE idDisposicionCosto= ${idDisposicionCosto} `
       );

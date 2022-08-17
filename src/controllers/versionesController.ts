@@ -8,7 +8,7 @@ class VersionesController {
             const resp = await pool.query("INSERT INTO versiones set ?", [req.body]);
             res.json(resp);
         } catch (error) {
-            console.log("Error al insertar", req.body);
+            
             console.log(error);
         }
        

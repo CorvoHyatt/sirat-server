@@ -13,7 +13,7 @@ class ProductosTransporteAdquiridoController {
   public async create_list(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     for (let index = 0; index < req.body.length; index++) {
-      console.log(`INSERT INTO productostransporteadquirido (idProductoAdquirido,idProductoAdquirido) VALUES (${id}, ${req.body[index].idProductoAdquirido	})`);
+      
       await pool.query(
         `INSERT INTO productostransporteadquirido (idProductoAdquirido,idProductoTransporte) VALUES (${id}, ${req.body[index].idProductoTransporte	})`
       );

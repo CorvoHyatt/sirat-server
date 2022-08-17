@@ -156,13 +156,13 @@ class Server {
     
     start() 
     {
-        console.log("Bandera",process.env.BANDERA);
-        console.log("Liga",process.env.LIGA);
+        
+        
          if(Number( process.env.BANDERA)==1)
          {
             this.app.listen(this.app.get('port'), () => 
             {
-                console.log('listening on port '+this.app.get('port'));
+                console.log("Server on port " + this.app.get('port'));
             })
         
          }
@@ -174,7 +174,7 @@ class Server {
    
              }, this.app).listen(this.app.get('port'), () => 
              {
-                 console.log('Running server https listening on port ' + this.app.get('port'));
+                 
              })
          }
     }

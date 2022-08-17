@@ -11,7 +11,7 @@ class TrenesController {
     {
         let consulta="SELECT * FROM aceptadosTren WHERE idTrenInfo="+req.body.idTrenInfo;
         const respConsulta = await pool.query(consulta);
-        console.log(respConsulta);
+        
         if(respConsulta.length==0)
         {
             const resp = await pool.query("INSERT INTO aceptadosTren set ?", [req.body]);
@@ -62,7 +62,7 @@ class TrenesController {
 
 
             const { idTren } = req.params;
-            console.log(upgrades);
+            
             const resp1 = await pool.query('UPDATE trenes SET ?  WHERE idTren = ?', [tren, idTren]);
             const resp2 = await pool.query('DELETE FROM trenesupgrade WHERE idTren = ?', [idTren]);
             
